@@ -12,17 +12,22 @@ class About extends StatelessWidget {
       backgroundColor: backgroundColor,
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(21),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ButtonWidget(
-                  icon: Icons.arrow_back,
-                  onPressed: () {
-                    //Undo the round.
-                    Navigator.pop(context);
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ButtonWidget(
+                      icon: Icons.arrow_back,
+                      onPressed: () {
+                        //Undo the round.
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 24,
@@ -30,7 +35,7 @@ class About extends StatelessWidget {
                 Text(
                   'መረጃ',
                   style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 42,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
@@ -41,42 +46,47 @@ class About extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  'ጨዋታው ውስጥ ያላችሁ ግብ ዕሥራ (፳) ወይም 20 እስክትደርሱ ድረስ ተመሳሳይ ቁጥሮችን ማጣመር ነው።',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  'የጨዋታው ግብ ፳ ወይም 20 እስክትደርሱ ድረስ ተመሳሳይ ቁጥሮችን ማጣመር ነው።',
+                  style: TextStyle(fontSize: 18, color: Colors.white70),
                 ),
                 SizedBox(height: 20),
                 Text(
                   '፩ - ጨዋታው ሲጀመር ሁለት በዘፈቀደ ሰሌዳው ላይ በግእዝ ቁጥር ይሞላል፣ ብዙ ጊዜ "፩" እና "፪" ይሆናል።',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 18, color: Colors.white70),
                 ),
                 SizedBox(height: 20),
                 Text(
                   '፪ - ቁጥሮቹን ለማንቀሳቀስ ወደ ማንኛውም አቅጣጫ ያንሸራትቱ (ወይም በኮምፒዩተር ላይ የሚጫወቱ ከሆነ የቀስት ቁልፎችን ይጠቀሙ)። ተመሳሳይ የቁጥር ንክኪ ያላቸው ሁለት ቁጥሮች ወደ አንድ ይዋሃዳሉ ማለትም ወደ ቀጣዩ ቁጥር። ',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 18, color: Colors.white70),
                 ),
                 SizedBox(height: 20),
                 Text(
                   '፫ - አንድ አይነት ቁጥር ያላቸው ሁለት ንጣፎች በአንድ ረድፍ ውስጥ ካሉ እና ወደዚያ ረድፍ አቅጣጫ ከተንቀሳቀሱ፣ ሁለቱ ንጣፎች ወደ አንድ ንጣፍ ይቀላቀላሉ። ለምሳሌ፣  "፩" የሚያሳይ ሁለት ንጣፎች በአንድ ረድፍ ውስጥ ከሆኑ እና ወደዚያ ረድፍ አቅጣጫ ካንሸራተቱ፣ እነሱ ይዋሃዳሉ ፪\'ን ይፈጥራሉ። በተመሳሳይ ፪ አንድ ላይ ፫ ይሰራሉ እያለ እስከ ፳ ማለትም ሁለት ፲\'ሮች።',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 18, color: Colors.white70),
                 ),
                 SizedBox(height: 20),
                 Text(
                   '፬ - ከእያንዳንዱ እንቅስቃሴ በኋላ አዲስ ንጣፍ በዘፈቀደ በሰሌዳው ላይ ባዶ ቦታ ላይ ይፈጠራል። አዲሱ ንጣፍ ፩ (90%) ወይም ፪ (10%) ይሆናል። ባዶ ቦታዎች እና ተመሳሳይ ቁጥሮች እስከሌሉ ድረስ ንጣፎችን ማንቀሳቀስ እና ማዋሃድ ይቀጥሉ። ምንም እንቅስቃሴ ማድረግ ካልተቻለ ጨዋታው አልቋል። ',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 18, color: Colors.white70),
                 ),
                 SizedBox(height: 20),
                 Text(
                   '፭ - የጨዋታው አላማ (፳) የሚያሳይ ንጣፍ ማግኘት ነው። ይህ የሚገኘው ሁለት (፲) ንጣፎችን በማዋሃድ ነው። ሆኖም፣ እዚህ ደረጃ ላይ ከደረሱ በኋላም ቢሆን ከፍ ያለ ነጥብ ለማግኘት ጨዋታውን መጫወቱን መቀጠል ይችላሉ።',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 18, color: Colors.white70),
                 ),
                 SizedBox(height: 20),
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount: numeralList.length,
                   itemBuilder: (context, index) {
-                    return Text(
-                      numeralList[index],
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text(
+                          numeralList[index],
+                          style: TextStyle(fontSize: 18, color: Colors.white60),
+                        ),
+                      ),
                     );
                   },
                 ),

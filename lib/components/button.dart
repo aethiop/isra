@@ -34,7 +34,8 @@ class ButtonWidget extends ConsumerWidget {
                 const EdgeInsets.all(16.0)),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(21.0)))),
+                    borderRadius: BorderRadius.circular(21.0))),
+            backgroundColor: MaterialStateProperty.all(color2048)),
         onPressed: onPressed,
         child: Text(
           text!,
