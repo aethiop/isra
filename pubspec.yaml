@@ -1,0 +1,42 @@
+name: isra
+description: A single player puzzle game
+publish_to: "none"
+version: 0.1.0
+
+environment:
+    sdk: ">=3.0.5 <4.0.0"
+
+dependencies:
+    flutter:
+        sdk: flutter
+    flutter_riverpod: ^1.0.4
+    uuid: ^3.0.6
+    flutter_swipe_detector: ^2.0.0
+    hive: ^2.1.1
+    hive_flutter: ^1.1.0
+    json_annotation: ^4.5.0
+    flutter_markdown: ^0.6.17
+
+dev_dependencies:
+    flutter_test:
+        sdk: flutter
+    flutter_lints: ^2.0.0
+    build_runner: ^2.1.11
+    json_serializable: ^6.2.0
+
+flutter:
+    uses-material-design: true
+    assets:
+        - assets/about.md
+    fonts:
+        - family: NotoSerifEthiopic
+          fonts:
+              - asset: fonts/NotoSerifEthiopic-Black.ttf
+              - asset: fonts/NotoSerifEthiopic-Bold.ttf
+              - asset: fonts/NotoSerifEthiopic-ExtraBold.ttf
+              - asset: fonts/NotoSerifEthiopic-ExtraLight.ttf
+              - asset: fonts/NotoSerifEthiopic-Light.ttf
+              - asset: fonts/NotoSerifEthiopic-Medium.ttf
+              - asset: fonts/NotoSerifEthiopic-Regular.ttf
+              - asset: fonts/NotoSerifEthiopic-SemiBold.ttf
+              - asset: fonts/NotoSerifEthiopic-Thin.ttf
