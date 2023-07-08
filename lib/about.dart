@@ -84,19 +84,21 @@ class About extends StatelessWidget {
                         padding: const EdgeInsets.all(4.0),
                         child: Text(
                           numeralList[index],
-                          style: TextStyle(fontSize: 18, color: Colors.white60),
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),
                     );
                   },
                 ),
                 SizedBox(height: 20),
-                Text(
-                  '-- አሪዮብ',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                Center(
+                  child: Text(
+                    '፨  በ ❤️ ከአሪዮብ  ፨',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white54),
+                  ),
                 ),
               ],
             ),
@@ -108,15 +110,15 @@ class About extends StatelessWidget {
 }
 
 const numeralList = [
-  '፩ - አሐዱ (Ahadu)',
-  '፪ - ክልኤቱ (Kil\'etu)',
-  '፫ - ሠለስቱ (Selestu)',
-  '፬ - አርባዕቱ (Arba\'etu)',
-  '፭ - ኀምስቱ (Hamsitu)',
-  '፮ - ስድስቱ (Sidsitu)',
-  '፯ - ሰብዐቱ (Seba\'etu)',
-  '፰ - ሰማንቱ (Semanitu)',
-  '፱ - ተስዐቱ (Tesa\'etu)',
-  '፲ - ዐሠርቱ (Asertu)',
-  '፳ - ዕሥ\'ራ (Isra)',
+  '፩ - አሐዱ  ',
+  '፪ - ክልኤቱ',
+  '፫ - ሠለስቱ',
+  '፬ - አርባዕቱ',
+  '፭ - ኀምስቱ',
+  '፮ - ስድስቱ',
+  '፯ - ሰብዐቱ',
+  '፰ - ሰማንቱ',
+  '፱ - ተስዐቱ',
+  '፲ - ዐሠርቱ',
+  '፳ - ዕሥራ  ',
 ];
