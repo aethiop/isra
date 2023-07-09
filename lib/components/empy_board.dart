@@ -21,8 +21,7 @@ class EmptyBoardWidget extends StatelessWidget {
     return Container(
       width: boardSize,
       height: boardSize,
-      decoration: BoxDecoration(
-          color: boardColor, borderRadius: BorderRadius.circular(16.0)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
       child: Stack(
         children: List.generate(16, (i) {
           //Render the empty board in 4x4 GridView
@@ -40,15 +39,16 @@ class EmptyBoardWidget extends StatelessWidget {
               width: tileSize,
               height: tileSize,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color(emptyTileColor.value),
-                        Color(emptyTileColor.withAlpha(200).value),
-                      ]),
-                  color: emptyTileColor,
-                  borderRadius: BorderRadius.circular(16.0)),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(emptyTileColor.withAlpha(200).value),
+                      Color(emptyTileColor.withAlpha(180).value),
+                    ]),
+                color: emptyTileColor,
+                borderRadius: BorderRadius.circular(tileSize),
+              ),
             ),
           );
         }),

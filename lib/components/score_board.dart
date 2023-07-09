@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../const/colors.dart';
 import '../managers/board.dart';
+import 'button.dart';
 
 class ScoreBoard extends ConsumerWidget {
   const ScoreBoard({super.key});

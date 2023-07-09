@@ -62,21 +62,22 @@ class TileBoardWidget extends ConsumerWidget {
                 width: tileSize,
                 height: tileSize,
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(tileColors[tile.value]!.value),
-                          Color(tileColors[tile.value]!.withAlpha(200).value),
-                        ]),
-                    borderRadius: BorderRadius.circular(16.0)),
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(tileColors[tile.value]!.withAlpha(200).value),
+                        Color(tileColors[tile.value]!.value),
+                      ]),
+                  borderRadius: BorderRadius.circular(tileSize),
+                ),
                 child: Center(
                     child: Text(
                   '${enToGeez[tile.value]}',
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontSize: 24.0,
-                      color: tile.value < 8 ? textColor : textColorWhite),
+                      color: backgroundColor),
                 )),
               ),
             );
@@ -100,7 +101,7 @@ class TileBoardWidget extends ConsumerWidget {
                     onPressed: () {
                       ref.read(boardManager.notifier).newGame();
                     },
-                  )
+                  ),
                 ],
               ),
             ))

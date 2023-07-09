@@ -20,29 +20,26 @@ import 'dart:ui';
 // const color512 = Color(0xffedc950);
 // const color1024 = Color(0xffedc53f);
 // const color2048 = Color(0xffedc22e);
+const backgroundColor = Color(0xff1f1f1f);
+const textColor = Color(0xffdddddd);
+const textColorWhite = Color(0xffdddddd);
+const boardColor = Color(0xff2d2f60);
+const emptyTileColor = Color(0xff282828);
+const buttonColor = Color(0xff6366F1);
+const scoreColor = Color(0xff333333);
+const overlayColor = Color.fromRGBO(50, 50, 50, 0.73);
 
-const backgroundColor = Color(0xff1f1f1f); // A dark gray, nearly black
-const textColor = Color(0xffdddddd); // Light gray for high contrast text
-const textColorWhite = Color(0xffdddddd); // Also light gray for high contrast
-const boardColor = Color(0xff333333); // Dark gray for the board
-const emptyTileColor =
-    Color(0xff282828); // Slightly darker gray for empty tiles
-const buttonColor = Color(0xff6c6c6c); // Medium gray for buttons
-const scoreColor = Color(0xff333333); // Dark gray for scores
-const overlayColor =
-    Color.fromRGBO(50, 50, 50, 0.73); // Very dark, semi-transparent overlay
-
-const color2 = Color(0xff646464); // Darkening and desaturating original color
-const color4 = Color(0xff7b6b5a); // Darkening and desaturating original color
-const color8 = Color(0xffb37344); // Darkened version of original color
-const color16 = Color(0xffb35840); // Darkened version of original color
-const color32 = Color(0xffb34733); // Darkened version of original color
-const color64 = Color(0xffb33e1f); // Darkened version of original color
-const color128 = Color(0xffada45b); // Darkened version of original color
-const color256 = Color(0xffad9f4a); // Darkened version of original color
-const color512 = Color(0xffad9338); // Darkened version of original color
-const color1024 = Color(0xffad8727); // Darkened version of original color
-const color2048 = Color(0xffad7c16); // Darkened version of original color
+const color2 = Color(0xff91a3ff);
+const color4 = Color(0xff6BF178);
+const color8 = Color(0xffF1A75D);
+const color16 = Color(0xffFAFF6B);
+const color32 = Color(0xffAA45F1);
+const color64 = Color(0xffFA5050);
+const color128 = Color(0xff9D6C1B);
+const color256 = Color(0xff5035D3);
+const color512 = Color(0xff3B8028);
+const color1024 = Color(0xff6a4bea);
+const color2048 = Color(0xff3b28b3);
 
 const tileColors = {
   2: color2,

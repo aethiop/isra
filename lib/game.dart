@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:isra/about.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'components/button.dart';
 import 'components/empy_board.dart';
@@ -65,6 +66,12 @@ class _GameState extends ConsumerState<Game>
 
   @override
   Widget build(BuildContext context) {
+    const String assetName = 'assets/icon.svg';
+    final Widget svgIcon = SvgPicture.asset(assetName,
+        semanticsLabel: 'Isra Logo',
+        height: 100,
+        width: 100,
+        fit: BoxFit.scaleDown);
     return RawKeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
@@ -87,17 +94,11 @@ class _GameState extends ConsumerState<Game>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'ዕሥራ',
-                      style: TextStyle(
-                          color: textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 52.0),
-                    ),
+                    svgIcon,
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,

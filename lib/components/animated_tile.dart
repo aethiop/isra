@@ -45,12 +45,12 @@ class AnimatedTile extends AnimatedWidget {
       scale = TweenSequence<double>(
         <TweenSequenceItem<double>>[
           TweenSequenceItem<double>(
-            tween: Tween<double>(begin: 1.0, end: 1.1)
+            tween: Tween<double>(begin: 1.0, end: 1.15)
                 .chain(CurveTween(curve: Curves.easeOut)),
             weight: 50.0,
           ),
           TweenSequenceItem<double>(
-            tween: Tween<double>(begin: 1.1, end: 1.0)
+            tween: Tween<double>(begin: 1.15, end: 1.0)
                 .chain(CurveTween(curve: Curves.easeIn)),
             weight: 50.0,
           ),
