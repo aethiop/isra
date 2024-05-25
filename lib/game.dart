@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:isra/about.dart';
+import 'package:isra/home.dart';
 
 import 'components/button.dart';
 import 'components/empy_board.dart';
@@ -201,6 +202,20 @@ class _GameState extends ConsumerState<Game>
                         Row(
                           children: [
                             ButtonWidget(
+                              icon: Icons.home,
+                              onPressed: () {
+                                // Go to about
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Home()),
+                                );
+                              },
+                            ),
+                            const SizedBox(
+                              width: 16.0,
+                            ),
+                            ButtonWidget(
                               icon: Icons.undo,
                               onPressed: () {
                                 //Undo the round.
@@ -217,20 +232,6 @@ class _GameState extends ConsumerState<Game>
                                 ref.read(boardManager.notifier).newGame();
                               },
                             ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            ButtonWidget(
-                              icon: Icons.info_outline_rounded,
-                              onPressed: () {
-                                // Go to about
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const About()),
-                                );
-                              },
-                            )
                           ],
                         )
                       ],

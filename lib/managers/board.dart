@@ -203,7 +203,7 @@ class BoardManager extends StateNotifier<Board> {
         var tile = state.tiles[i];
 
         //If there is a tile with 2048 then the game is won.
-        if (tile.value == 2048) {
+        if (tile.value >= 2048) {
           gameWon = true;
         }
 
@@ -277,7 +277,7 @@ class BoardManager extends StateNotifier<Board> {
 
   //undo one round only
   void undo() {
-    if (state.undo != null) {
+    if (state.undo != null && !state.over) {
       state = state.copyWith(
           score: state.undo!.score,
           best: state.undo!.best,

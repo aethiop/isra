@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:isra/home.dart';
+import 'package:isra/onboarding.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'models/board_adapter.dart';
 
-import 'game.dart';
-
 void main() async {
-  //Allow only portrait mode on Android & iOS
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
@@ -15,12 +15,29 @@ void main() async {
   //Make sure Hive is initialized first and only after register the adapter.
   await Hive.initFlutter();
   Hive.registerAdapter(BoardAdapter());
-  runApp(ProviderScope(
-    child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'AdwaSansSerif'),
-      title: 'ዕሥራ',
-      home: Game(),
-    ),
-  ));
+
+  var prefs = await SharedPreferences.getInstance();
+  bool isFirstTime = prefs.getBool('first_time') ?? true;
+
+  runApp(IsraApp(isFirstTime: isFirstTime));
+}
+
+class IsraApp extends StatelessWidget {
+  final bool isFirstTime;
+  const IsraApp({key, required this.isFirstTime}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            fontFamily: 'NotoSansEthiopic', primarySwatch: Colors.grey),
+        title: 'ዕሥራ',
+        home: isFirstTime
+            ? OnboardingScreen()
+            : Home(), // Replace MainScreen() with your main screen widget
+      ),
+    );
+  }
 }

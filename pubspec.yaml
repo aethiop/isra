@@ -15,8 +15,10 @@ dependencies:
     hive: ^2.1.1
     hive_flutter: ^1.1.0
     json_annotation: ^4.5.0
-    flutter_markdown: ^0.6.17
     flutter_svg: ^2.0.7
+    introduction_screen: ^3.1.12
+    google_fonts: ^6.2.0
+    shared_preferences: ^2.2.2
 
 dev_dependencies:
     flutter_test:
@@ -26,11 +28,19 @@ dev_dependencies:
     json_serializable: ^6.2.0
 
 flutter:
+    fonts:
+        - family: NotoSansEthiopic
+          fonts:
+              - asset: fonts/NotoSansEthiopic-VariableFont_wdth,wght.ttf
     uses-material-design: true
     assets:
         - assets/icon.svg
-    fonts:
-        - family: Adwa
-          fonts:
-              - asset: fonts/AdwaSansSerif-Bold.ttf
-              - asset: fonts/AdwaSansSerif-Regular.ttf
+        - assets/step1.svg
+        - assets/step2.svg
+        - assets/step3.svg
+
+flutter_launcher_icons:
+    android: "launcher_icon"
+    ios: true
+    image_path: "assets/icon.png"
+    remove_alpha_ios: true

@@ -96,6 +96,7 @@ class TileBoardWidget extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 64.0),
                   ),
+                  const SizedBox(height: 40.0),
                   ButtonWidget(
                     text: board.won ? 'አዲስ ጨዋታ' : 'እንደገና ይሞክሩ',
                     onPressed: () {

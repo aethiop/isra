@@ -41,7 +41,7 @@ class About extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  'የጨዋታው ግብ ፳ ወይም 20 እስክትደርሱ ድረስ ተመሳሳይ ቁጥሮችን ማጣመር ነው።',
+                  'የጨዋታው ግብ ፳ እስክትደርሱ ድረስ ተመሳሳይ ቁጥሮችን ማጣመር ነው።',
                   style: TextStyle(fontSize: 18, color: Colors.white70),
                 ),
                 SizedBox(height: 20),
