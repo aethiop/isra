@@ -47,7 +47,7 @@ class EmptyBoardWidget extends StatelessWidget {
                       Color(emptyTileColor.withAlpha(180).value),
                     ]),
                 color: emptyTileColor,
-                borderRadius: BorderRadius.circular(tileSize),
+                borderRadius: BorderRadius.circular(18.0),
               ),
             ),
           );

@@ -69,15 +69,15 @@ class TileBoardWidget extends ConsumerWidget {
                         Color(tileColors[tile.value]!.withAlpha(200).value),
                         Color(tileColors[tile.value]!.value),
                       ]),
-                  borderRadius: BorderRadius.circular(tileSize),
+                  borderRadius: BorderRadius.circular(18.0),
                 ),
                 child: Center(
                     child: Text(
                   '${enToGeez[tile.value]}',
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: 24.0,
-                      color: backgroundColor),
+                      fontSize: 28.0,
+                      color: tileTextColors[tile.value]),
                 )),
               ),
             );

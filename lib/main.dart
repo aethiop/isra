@@ -18,7 +18,7 @@ void main() async {
   runApp(ProviderScope(
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'NotoSerifEthiopic'),
+      theme: ThemeData(fontFamily: 'AdwaSansSerif'),
       title: 'ዕሥራ',
       home: Game(),
     ),

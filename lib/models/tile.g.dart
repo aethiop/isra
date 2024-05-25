@@ -8,9 +8,9 @@ part of 'tile.dart';
 
 Tile _$TileFromJson(Map json) => Tile(
       json['id'] as String,
-      json['value'] as int,
-      json['index'] as int,
-      nextIndex: json['nextIndex'] as int?,
+      (json['value'] as num).toInt(),
+      (json['index'] as num).toInt(),
+      nextIndex: (json['nextIndex'] as num?)?.toInt(),
       merged: json['merged'] as bool? ?? false,
     );
 

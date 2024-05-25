@@ -7,8 +7,8 @@ part of 'board.dart';
 // **************************************************************************
 
 Board _$BoardFromJson(Map json) => Board(
-      json['score'] as int,
-      json['best'] as int,
+      (json['score'] as num).toInt(),
+      (json['best'] as num).toInt(),
       (json['tiles'] as List<dynamic>)
           .map((e) => Tile.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),

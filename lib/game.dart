@@ -1,8 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:isra/about.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'components/button.dart';
 import 'components/empy_board.dart';
@@ -64,14 +65,46 @@ class _GameState extends ConsumerState<Game>
     super.initState();
   }
 
+  String _getAmharicWord(int value) {
+    final amharicWords = {
+      2: 'አሐዱ',
+      4: 'ክልኤቱ',
+      8: 'ሠለስቱ',
+      16: 'አርባዕቱ',
+      32: 'ኀምስቱ',
+      64: 'ስድስቱ',
+      128: 'ሰብዐቱ',
+      256: 'ሰማንቱ',
+      512: 'ተስዐቱ',
+      1024: 'ዐሠርቱ',
+      2048: 'እስራ',
+    };
+    return amharicWords[value] ?? '';
+  }
+
+  String? _latinToGeez(int value) {
+    print(value);
+    final Map<int, String> enToGeez = {
+      2: '፩',
+      4: '፪',
+      8: '፫',
+      16: '፬',
+      32: '፭',
+      64: '፮',
+      128: '፯',
+      256: '፰',
+      512: '፱',
+      1024: '፲',
+      2048: '፳',
+    };
+    print(enToGeez[value]);
+    return enToGeez[value];
+  }
+
   @override
   Widget build(BuildContext context) {
     const String assetName = 'assets/icon.svg';
-    final Widget svgIcon = SvgPicture.asset(assetName,
-        semanticsLabel: 'Isra Logo',
-        height: 100,
-        width: 100,
-        fit: BoxFit.scaleDown);
+
     return RawKeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
@@ -98,7 +131,65 @@ class _GameState extends ConsumerState<Game>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    svgIcon,
+                    Consumer(
+                      builder: (context, ref, _) {
+                        final board = ref.watch(boardManager);
+                        final highestTile = board.tiles
+                            .reduce((a, b) => a.value > b.value ? a : b);
+                        final highestValue = highestTile.value;
+                        final size = max(
+                            290.0,
+                            min(
+                                (MediaQuery.of(context).size.shortestSide *
+                                        0.90)
+                                    .floorToDouble(),
+                                460.0));
+
+                        //Decide the size of the tile based on the size of the board minus the space between each tile.
+                        final sizePerTile = (size / 4).floorToDouble();
+                        final tileSize = sizePerTile - 12.0 - (12.0 / 4);
+                        final geezNumber = _latinToGeez(highestValue);
+                        print(geezNumber);
+                        return Column(
+                          children: [
+                            Container(
+                              width: tileSize,
+                              height: tileSize,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(tileColors[highestValue]!
+                                          .withAlpha(200)
+                                          .value),
+                                      Color(tileColors[highestValue]!.value),
+                                    ]),
+                                borderRadius: BorderRadius.circular(18.0),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                '${_latinToGeez(highestValue)}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 48.0,
+                                    color: tileTextColors[highestValue]),
+                              )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                _getAmharicWord(highestValue),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                    color: textColor),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,

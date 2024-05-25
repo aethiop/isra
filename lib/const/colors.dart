@@ -1,45 +1,29 @@
 import 'dart:ui';
 
-// const backgroundColor = Color(0xfffaf8ef);
-// const textColor = Color(0xff776e65);
-// const textColorWhite = Color(0xfff9f6f2);
-// const boardColor = Color(0xffbbada0);
-// const emptyTileColor = Color(0xffcdc1b4);
-// const buttonColor = Color(0xff8f7a66);
-// const scoreColor = Color(0xffbbada0);
-// const overlayColor = Color.fromRGBO(238, 228, 218, 0.73);
+const backgroundColor = Color(0xFF1F1F1F);
+const textColor = Color(0xFFD4D4D4);
+const textColorBlack = Color(0xFF1F1F1F);
+const boardColor = Color(0xFF2E2E2E);
+const emptyTileColor = Color.fromARGB(255, 40, 40, 40);
+const buttonColor = Color(0xFF8E6B2E);
+const scoreColor = Color(0xFF3E3E3E);
+const overlayColor = Color.fromRGBO(31, 31, 31, 0.523);
 
-// const color2 = Color(0xffeee4da);
-// const color4 = Color(0xffeee1c9);
-// const color8 = Color(0xfff3b27a);
-// const color16 = Color(0xfff69664);
-// const color32 = Color(0xfff77c5f);
-// const color64 = Color(0xfff75f3b);
-// const color128 = Color(0xffedd073);
-// const color256 = Color(0xffedcc62);
-// const color512 = Color(0xffedc950);
-// const color1024 = Color(0xffedc53f);
-// const color2048 = Color(0xffedc22e);
-const backgroundColor = Color(0xff1f1f1f);
-const textColor = Color(0xffdddddd);
-const textColorWhite = Color(0xffdddddd);
-const boardColor = Color(0xff2d2f60);
-const emptyTileColor = Color(0xff282828);
-const buttonColor = Color(0xff6366F1);
-const scoreColor = Color(0xff333333);
-const overlayColor = Color.fromRGBO(50, 50, 50, 0.73);
+const goldenRatio = 1.618;
 
-const color2 = Color(0xff91a3ff);
-const color4 = Color(0xff6BF178);
-const color8 = Color(0xffF1A75D);
-const color16 = Color(0xffFAFF6B);
-const color32 = Color(0xffAA45F1);
-const color64 = Color(0xffFA5050);
-const color128 = Color(0xff9D6C1B);
-const color256 = Color(0xff5035D3);
-const color512 = Color(0xff3B8028);
-const color1024 = Color(0xff6a4bea);
-const color2048 = Color(0xff3b28b3);
+const color2 = Color.fromARGB(255, 45, 45, 45);
+const color4 = Color.fromARGB(255, 64, 64, 64);
+const color8 = Color.fromARGB(255, 87, 87, 87);
+const color16 = Color.fromARGB(255, 119, 118, 118);
+const color32 = Color.fromARGB(255, 138, 136, 136);
+const color64 = Color.fromARGB(255, 194, 194, 194);
+const color128 = Color.fromARGB(255, 207, 205, 205);
+const color256 = Color.fromARGB(255, 231, 230, 230);
+const color512 = Color.fromARGB(255, 255, 255, 255);
+const color1024 = Color.fromARGB(255, 253, 239, 194);
+const color2048 = Color.fromARGB(255, 162, 239, 155);
+const color4096 = Color(0xFFFFFFFF);
+const color8192 = Color(0xFFF0F0F0);
 
 const tileColors = {
   2: color2,
@@ -53,4 +37,22 @@ const tileColors = {
   512: color512,
   1024: color1024,
   2048: color2048,
+  4096: color4096,
+  8192: color8192,
+};
+
+const tileTextColors = {
+  2: textColor,
+  4: textColor,
+  8: textColor,
+  16: textColor,
+  32: textColorBlack,
+  64: textColorBlack,
+  128: textColorBlack,
+  256: textColorBlack,
+  512: textColorBlack,
+  1024: textColorBlack,
+  2048: textColorBlack,
+  4096: textColorBlack,
+  8192: textColorBlack,
 };

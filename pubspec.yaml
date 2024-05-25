@@ -30,14 +30,7 @@ flutter:
     assets:
         - assets/icon.svg
     fonts:
-        - family: NotoSerifEthiopic
+        - family: Adwa
           fonts:
-              - asset: fonts/NotoSerifEthiopic-Black.ttf
-              - asset: fonts/NotoSerifEthiopic-Bold.ttf
-              - asset: fonts/NotoSerifEthiopic-ExtraBold.ttf
-              - asset: fonts/NotoSerifEthiopic-ExtraLight.ttf
-              - asset: fonts/NotoSerifEthiopic-Light.ttf
-              - asset: fonts/NotoSerifEthiopic-Medium.ttf
-              - asset: fonts/NotoSerifEthiopic-Regular.ttf
-              - asset: fonts/NotoSerifEthiopic-SemiBold.ttf
-              - asset: fonts/NotoSerifEthiopic-Thin.ttf
+              - asset: fonts/AdwaSansSerif-Bold.ttf
+              - asset: fonts/AdwaSansSerif-Regular.ttf
