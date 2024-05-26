@@ -34,7 +34,6 @@ class Home extends StatelessWidget {
                 child: Text(
                   'ዕሥራ',
                   style: TextStyle(
-                      fontFamily: 'AdwaSansSerif',
                       fontSize: 36,
                       fontWeight: FontWeight.w900,
                       color: Colors.white),
