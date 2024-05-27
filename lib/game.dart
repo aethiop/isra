@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
-import 'package:isra/about.dart';
 import 'package:isra/home.dart';
 
 import 'components/button.dart';
@@ -84,7 +83,6 @@ class _GameState extends ConsumerState<Game>
   }
 
   String? _latinToGeez(int value) {
-    print(value);
     final Map<int, String> enToGeez = {
       2: '፩',
       4: '፪',
@@ -98,14 +96,11 @@ class _GameState extends ConsumerState<Game>
       1024: '፲',
       2048: '፳',
     };
-    print(enToGeez[value]);
     return enToGeez[value];
   }
 
   @override
   Widget build(BuildContext context) {
-    const String assetName = 'assets/icon.svg';
-
     return RawKeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
@@ -117,7 +112,7 @@ class _GameState extends ConsumerState<Game>
       },
       child: SwipeDetector(
         onSwipe: (direction, offset) {
-          if (ref.read(boardManager.notifier).move(direction)) {
+          if (ref.read(boardManager.notifier).whenMove(direction)) {
             _moveController.forward(from: 0.0);
           }
         },
@@ -149,8 +144,6 @@ class _GameState extends ConsumerState<Game>
                         //Decide the size of the tile based on the size of the board minus the space between each tile.
                         final sizePerTile = (size / 4).floorToDouble();
                         final tileSize = sizePerTile - 12.0 - (12.0 / 4);
-                        final geezNumber = _latinToGeez(highestValue);
-                        print(geezNumber);
                         return Column(
                           children: [
                             Container(
@@ -246,10 +239,12 @@ class _GameState extends ConsumerState<Game>
                 children: [
                   const EmptyBoardWidget(),
                   TileBoardWidget(
-                      moveAnimation: _moveAnimation,
-                      scaleAnimation: _scaleAnimation)
+                    moveAnimation: _moveAnimation,
+                    scaleAnimation: _scaleAnimation,
+                    board: ref.watch(boardManager),
+                  )
                 ],
-              )
+              ),
             ],
           ),
         ),

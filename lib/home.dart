@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:isra/about.dart';
-import 'package:isra/onboarding.dart';
+import 'package:isra/tutorial.dart';
 
 import 'components/button.dart';
 import 'const/colors.dart';
@@ -21,54 +20,61 @@ class Home extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(21.0)),
-                child: SvgPicture.asset(
-                  'assets/icon.svg',
-                  height: 100,
-                  width: 100,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(48.0),
-                child: Text(
-                  'ዕሥራ',
-                  style: TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white),
-                ),
-              ),
-              // select the game mode
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ButtonWidget(
-                      text: 'ጨዋታ',
-                      icon: Icons.play_arrow,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Game()),
-                        );
-                      },
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(21.0)),
+                    child: SvgPicture.asset(
+                      'assets/icon.svg',
+                      height: 100,
+                      width: 100,
                     ),
                   ),
-                  ButtonWidget(
-                      text: 'About',
-                      icon: Icons.info,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const OnboardingScreen()),
-                        );
-                      }),
+                  Padding(
+                    padding: const EdgeInsets.all(48.0),
+                    child: Text(
+                      'ዕሥራ',
+                      style: TextStyle(
+                          fontSize: 42,
+                          fontWeight: FontWeight.w900,
+                          color: textColor),
+                    ),
+                  ),
+                  // select the game mode
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ButtonWidget(
+                          text: 'ጨዋታ',
+                          icon: Icons.play_arrow,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Game()),
+                            );
+                          },
+                        ),
+                      ),
+                      ButtonWidget(
+                          text: 'About',
+                          icon: Icons.info,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Tutorial(
+                                        firstTime: false,
+                                      )),
+                            );
+                          }),
+                    ],
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

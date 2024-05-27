@@ -13,19 +13,19 @@ const cardColor = Color(0xFF2E2E2E);
 
 const goldenRatio = 1.618;
 
-const color2 = Color.fromARGB(255, 45, 45, 45);
-const color4 = Color.fromARGB(255, 64, 64, 64);
-const color8 = Color.fromARGB(255, 87, 87, 87);
-const color16 = Color.fromARGB(255, 119, 118, 118);
-const color32 = Color.fromRGBO(138, 136, 136, 1);
-const color64 = Color.fromARGB(255, 194, 194, 194);
-const color128 = Color.fromARGB(255, 207, 205, 205);
-const color256 = Color.fromRGBO(231, 230, 230, 1);
-const color512 = Color.fromARGB(255, 255, 255, 255);
-const color1024 = Color.fromRGBO(253, 239, 194, 1);
-const color2048 = Color.fromRGBO(162, 239, 155, 1);
-const color4096 = Color(0xFFFFFFFF);
-const color8192 = Color(0xFFF0F0F0);
+const color2 = Color(0xFFEEE4DA);
+const color4 = Color(0xFFEDE0C8);
+const color8 = Color(0xFFF2B179);
+const color16 = Color(0xFFF59563);
+const color32 = Color(0xFFF67C5F);
+const color64 = Color(0xFFF65E3B);
+const color128 = Color(0xFFEDCF72);
+const color256 = Color(0xFFEDCC61);
+const color512 = Color(0xFFEDC850);
+const color1024 = Color(0xFFEDC53F);
+const color2048 = Color(0xFFEDC22E);
+const color4096 = Color(0xFF3C3A32);
+const color8192 = Color(0xFF3C3A32);
 
 const tileColors = {
   2: color2,
@@ -44,17 +44,17 @@ const tileColors = {
 };
 
 const tileTextColors = {
-  2: textColor,
-  4: textColor,
-  8: textColor,
-  16: textColor,
-  32: textColorBlack,
-  64: textColorBlack,
-  128: textColorBlack,
-  256: textColorBlack,
-  512: textColorBlack,
-  1024: textColorBlack,
-  2048: textColorBlack,
-  4096: textColorBlack,
-  8192: textColorBlack,
+  2: textColorBlack,
+  4: textColorBlack,
+  8: Color(0xFFF9F6F2),
+  16: Color(0xFFF9F6F2),
+  32: Color(0xFFF9F6F2),
+  64: Color(0xFFF9F6F2),
+  128: Color(0xFFF9F6F2),
+  256: Color(0xFFF9F6F2),
+  512: Color(0xFFF9F6F2),
+  1024: Color(0xFFF9F6F2),
+  2048: Color(0xFFF9F6F2),
+  4096: Color(0xFFF9F6F2),
+  8192: Color(0xFFF9F6F2),
 };

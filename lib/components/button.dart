@@ -17,7 +17,7 @@ class ButtonWidget extends ConsumerWidget {
       //Button Widget with icon for Undo and Restart Game button.
       return Container(
         decoration: BoxDecoration(
-            color: buttonColor, borderRadius: BorderRadius.circular(16.0)),
+            color: buttonColor, borderRadius: BorderRadius.circular(14.0)),
         child: IconButton(
             color: textColor,
             onPressed: onPressed,
@@ -34,11 +34,11 @@ class ButtonWidget extends ConsumerWidget {
                 const EdgeInsets.all(16.0)),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(21.0)))),
+                    borderRadius: BorderRadius.circular(16.0)))),
         onPressed: onPressed,
         child: Text(
           text!,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+          style: const TextStyle(fontSize: 18.0),
         ));
   }
 }

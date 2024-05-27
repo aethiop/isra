@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isra/models/board.dart';
 
 import '../const/colors.dart';
 import '../managers/board.dart';
@@ -10,11 +11,14 @@ import 'button.dart';
 
 class TileBoardWidget extends ConsumerWidget {
   const TileBoardWidget(
-      {super.key, required this.moveAnimation, required this.scaleAnimation});
+      {super.key,
+      required this.moveAnimation,
+      required this.scaleAnimation,
+      required this.board});
 
   final CurvedAnimation moveAnimation;
   final CurvedAnimation scaleAnimation;
-
+  final Board board;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Map<int, String> enToGeez = {
@@ -30,7 +34,7 @@ class TileBoardWidget extends ConsumerWidget {
       1024: '፲',
       2048: '፳',
     };
-    final board = ref.watch(boardManager);
+    // final board = ref.watch(boardManager);
 
     //Decides the maximum size the Board can be based on the shortest size of the screen.
     final size = max(
@@ -75,9 +79,7 @@ class TileBoardWidget extends ConsumerWidget {
                     child: Text(
                   '${enToGeez[tile.value]}',
                   style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 28.0,
-                      color: tileTextColors[tile.value]),
+                      fontSize: 32.0, color: tileTextColors[tile.value]),
                 )),
               ),
             );

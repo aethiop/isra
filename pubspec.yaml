@@ -19,6 +19,8 @@ dependencies:
     introduction_screen: ^3.1.12
     google_fonts: ^6.2.0
     shared_preferences: ^2.2.2
+    google_mobile_ads: ^4.0.0
+    flutter_native_splash: ^2.3.7
 
 dev_dependencies:
     flutter_test:
@@ -34,6 +36,8 @@ flutter:
               - asset: fonts/NotoSansEthiopic-VariableFont_wdth,wght.ttf
     uses-material-design: true
     assets:
+        - assets/icon.png
+        - assets/splash.png
         - assets/icon.svg
         - assets/step1.svg
         - assets/step2.svg
