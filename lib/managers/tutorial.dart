@@ -75,7 +75,7 @@ class TutorialManager extends StateNotifier<Board> with BoardUtils {
 
       case 3:
         var prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('first_time', false);
+        await prefs.setBool('isFirstTime', false);
         // Reset the board for free play
         state = state.copyWith(tiles: state.tiles);
         _isBoardLocked = false;

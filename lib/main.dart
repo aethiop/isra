@@ -20,7 +20,7 @@ void main() async {
   Hive.registerAdapter(BoardAdapter());
 
   var prefs = await SharedPreferences.getInstance();
-  bool isFirstTime = prefs.getBool('first_time_1') ?? true;
+  bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
   // await MobileAds.instance.initialize();
   runApp(IsraApp(isFirstTime: isFirstTime));
 }
