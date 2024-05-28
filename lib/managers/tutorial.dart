@@ -212,7 +212,7 @@ class TutorialManager extends StateNotifier<Board> with BoardUtils {
           i += 1;
         }
       }
-      if (merged && _isMerged) {
+      if (merged && _isMerged && _tutorialStep == 2) {
         nextTutorialStep();
       }
       if (merged || tile.nextIndex != null && tile.index != tile.nextIndex) {
