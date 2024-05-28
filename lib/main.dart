@@ -1,33 +1,52 @@
-import 'dart:async';
-
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:games_services/games_services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:isra/const/constants.dart';
 import 'package:isra/home.dart';
 import 'package:isra/tutorial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'models/board_adapter.dart';
 
 void main() async {
+  try {
+    await GamesServices.signIn();
+  } on PlatformException catch (e) {
+    print('Failed to sign in: ${e.message}');
+    // ... deal with failures ...
+  }
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
+
+  void startBgmMusic({double volume = 0.5}) {
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.play('tizita.mp3', volume: volume);
+  }
+
   //Make sure Hive is initialized first and only after register the adapter.
   await Hive.initFlutter();
   Hive.registerAdapter(BoardAdapter());
-
   var prefs = await SharedPreferences.getInstance();
-  bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+  bool isFirstTime = prefs.getBool(firstTime) ?? true;
+  bool isSoundEnabled = prefs.getBool(soundEnabled) ?? true;
+  prefs.setBool(soundEnabled, isSoundEnabled);
+
+  if (isSoundEnabled) {
+    startBgmMusic();
+  }
   // await MobileAds.instance.initialize();
-  runApp(IsraApp(isFirstTime: isFirstTime));
+  runApp(IsraApp(isFirstTime: isFirstTime, isSoundEnabled: isSoundEnabled));
 }
 
 class IsraApp extends StatelessWidget {
   final bool isFirstTime;
-  const IsraApp({key, required this.isFirstTime}) : super(key: key);
+  final bool isSoundEnabled;
+  const IsraApp({key, required this.isFirstTime, required this.isSoundEnabled})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

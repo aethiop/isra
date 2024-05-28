@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
+import 'package:games_services/games_services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:uuid/uuid.dart';
 
 import '../models/tile.dart';
 import '../models/board.dart';
@@ -99,7 +98,7 @@ class BoardManager extends StateNotifier<Board> with BoardUtils {
   }
 
   //Finish round, win or loose the game.
-  void _endRound() {
+  void _endRound() async {
     var gameOver = true, gameWon = false;
     List<Tile> tiles = [];
 
@@ -163,7 +162,13 @@ class BoardManager extends StateNotifier<Board> with BoardUtils {
         tiles.add(tile.copyWith(merged: false));
       }
     }
-
+    await GamesServices.submitScore(
+      score: Score(
+        iOSLeaderboardID: 'leaderboard_isra_leaderboard',
+        androidLeaderboardID: 'leaderboard_isra_leaderboard',
+        value: state.best,
+      ),
+    );
     state = state.copyWith(tiles: tiles, won: gameWon, over: gameOver);
   }
 

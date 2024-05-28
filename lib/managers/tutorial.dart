@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:isra/const/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -66,7 +67,7 @@ class TutorialManager extends StateNotifier<Board> with BoardUtils {
       case 2:
         // Place two tiles on the board
         state =
-            state.copyWith(tiles: [...state.tiles, Tile(Uuid().v4(), 2, 10)]);
+            state.copyWith(tiles: [...state.tiles, Tile(Uuid().v4(), 2, 1)]);
         _isBoardLocked = false;
         _isNewTileEnabled = false;
         _isMerged = true;
@@ -75,7 +76,7 @@ class TutorialManager extends StateNotifier<Board> with BoardUtils {
 
       case 3:
         var prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('isFirstTime', false);
+        await prefs.setBool(firstTime, false);
         // Reset the board for free play
         state = state.copyWith(tiles: state.tiles);
         _isBoardLocked = false;

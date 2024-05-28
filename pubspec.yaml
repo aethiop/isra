@@ -19,8 +19,9 @@ dependencies:
     introduction_screen: ^3.1.12
     google_fonts: ^6.2.0
     shared_preferences: ^2.2.2
-    google_mobile_ads: ^4.0.0
     flutter_native_splash: ^2.3.7
+    flame_audio: ^2.1.1
+    games_services: ^4.0.1
 
 dev_dependencies:
     flutter_test:
@@ -42,6 +43,7 @@ flutter:
         - assets/step1.svg
         - assets/step2.svg
         - assets/step3.svg
+        - assets/audio/tizita.mp3
 
 flutter_launcher_icons:
     android: "launcher_icon"

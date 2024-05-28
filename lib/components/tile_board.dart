@@ -92,7 +92,8 @@ class TileBoardWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    board.won ? 'አሸንፈዋል!' : 'አበቃለት!',
+                    'አበቃለት!',
+                    // board.won ? 'አሸንፈዋል!' : 'አበቃለት!',
                     style: const TextStyle(
                         color: textColor,
                         fontWeight: FontWeight.bold,
@@ -100,7 +101,32 @@ class TileBoardWidget extends ConsumerWidget {
                   ),
                   const SizedBox(height: 40.0),
                   ButtonWidget(
-                    text: board.won ? 'አዲስ ጨዋታ' : 'እንደገና ይሞክሩ',
+                    // text: board.won ? 'አዲስ ጨዋታ' : 'እንደገና ይሞክሩ',
+                    text: 'እንደገና ይሞክሩ',
+                    onPressed: () {
+                      ref.read(boardManager.notifier).newGame();
+                    },
+                  ),
+                ],
+              ),
+            )),
+          if (board.won)
+            Positioned.fill(
+                child: Container(
+              color: overlayColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'እንኳን ደስ እልዎ!',
+                    style: const TextStyle(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 64.0),
+                  ),
+                  const SizedBox(height: 40.0),
+                  ButtonWidget(
+                    text: 'አዲስ ጨዋታ',
                     onPressed: () {
                       ref.read(boardManager.notifier).newGame();
                     },

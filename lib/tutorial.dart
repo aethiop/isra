@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:isra/home.dart';
 import 'package:isra/managers/tutorial.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/button.dart';
 import 'components/empy_board.dart';
@@ -65,47 +62,11 @@ class _TutorialState extends ConsumerState<Tutorial>
     super.initState();
   }
 
-  String _getAmharicWord(int value) {
-    final amharicWords = {
-      2: 'አሐዱ',
-      4: 'ክልኤቱ',
-      8: 'ሠለስቱ',
-      16: 'አርባዕቱ',
-      32: 'ኀምስቱ',
-      64: 'ስድስቱ',
-      128: 'ሰብዐቱ',
-      256: 'ሰማንቱ',
-      512: 'ተስዐቱ',
-      1024: 'ዐሠርቱ',
-      2048: 'እስራ',
-    };
-    return amharicWords[value] ?? '';
-  }
-
-  String? _latinToGeez(int value) {
-    final Map<int, String> enToGeez = {
-      2: '፩',
-      4: '፪',
-      8: '፫',
-      16: '፬',
-      32: '፭',
-      64: '፮',
-      128: '፯',
-      256: '፰',
-      512: '፱',
-      1024: '፲',
-      2048: '፳',
-    };
-    return enToGeez[value];
-  }
-
   @override
   Widget build(BuildContext context) {
     final tutorialManagerNotifier = ref.read(tutorialManager.notifier);
     final tutorialBoard = ref.watch(tutorialManager);
-    final showWalls = tutorialManagerNotifier.showWalls;
     final isBoardLocked = tutorialManagerNotifier.isBoardLocked;
-    final isMerged = tutorialManagerNotifier.isMerged;
     final tutorialStep = tutorialManagerNotifier.tutorialStep;
 
     return RawKeyboardListener(
@@ -238,6 +199,7 @@ class _TutorialState extends ConsumerState<Tutorial>
       'ቁጥሮቹን (ንጣፎቹን) ለማንቀሳቀስ ወደ የትኛውም አቅጣጫ ያንሸራትቱ።',
       'ቁጥሮቹን (ንጣፎቹን) ወደ ግድግዳው በማጋጨት በአንድ ረድፍ ሲሆንላችሁ መቀላቀል ይቻላል።',
       'ቁጥሮቹ (ንጣፎቹ)  በሚንቀሳቀሱበት ጊዜ አዳዲስ ቁጥሮች ይፈጠራሉ። ( ፳ ) ከደረሱ ያሸንፋሉ።',
+      ''
     ];
     final detail = tutorialDetails[step - 1];
 
