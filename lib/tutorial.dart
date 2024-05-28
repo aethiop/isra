@@ -74,7 +74,7 @@ class _TutorialState extends ConsumerState<Tutorial>
       focusNode: FocusNode(),
       onKey: (RawKeyEvent event) {
         if (!isBoardLocked && tutorialManagerNotifier.onKey(event)) {
-          if (tutorialStep == 1 || tutorialStep == 3) {
+          if (tutorialStep == 1) {
             tutorialManagerNotifier.nextTutorialStep();
           }
           _moveController.forward(from: 0.0);
@@ -171,7 +171,7 @@ class _TutorialState extends ConsumerState<Tutorial>
                     height: 32.0,
                   ),
 
-                  if (tutorialStep == 3)
+                  if (tutorialStep >= 3)
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: ButtonWidget(

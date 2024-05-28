@@ -2,7 +2,6 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:games_services/games_services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isra/const/constants.dart';
 import 'package:isra/home.dart';
