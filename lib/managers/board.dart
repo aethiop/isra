@@ -162,13 +162,7 @@ class BoardManager extends StateNotifier<Board> with BoardUtils {
         tiles.add(tile.copyWith(merged: false));
       }
     }
-    await GamesServices.submitScore(
-      score: Score(
-        iOSLeaderboardID: 'leaderboard_isra_leaderboard',
-        androidLeaderboardID: 'leaderboard_isra_leaderboard',
-        value: state.best,
-      ),
-    );
+
     state = state.copyWith(tiles: tiles, won: gameWon, over: gameOver);
   }
 

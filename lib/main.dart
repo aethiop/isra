@@ -11,18 +11,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'models/board_adapter.dart';
 
 void main() async {
-  try {
-    await GamesServices.signIn();
-  } on PlatformException catch (e) {
-    print('Failed to sign in: ${e.message}');
-    // ... deal with failures ...
-  }
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
 
-  void startBgmMusic({double volume = 0.5}) {
+  void startBgmMusic({double volume = 1}) {
     FlameAudio.bgm.initialize();
     FlameAudio.bgm.play('tizita.mp3', volume: volume);
   }
