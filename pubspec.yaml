@@ -43,7 +43,7 @@ flutter:
         - assets/step1.svg
         - assets/step2.svg
         - assets/step3.svg
-        - assets/audio/tizita.mp3
+        - assets/audio/addis-ababa.mp3
 
 flutter_launcher_icons:
     android: "launcher_icon"

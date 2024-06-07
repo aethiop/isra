@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
-import 'package:games_services/games_services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../models/tile.dart';

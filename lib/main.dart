@@ -17,7 +17,7 @@ void main() async {
 
   void startBgmMusic({double volume = 1}) {
     FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('tizita.mp3', volume: volume);
+    FlameAudio.bgm.play('addis-ababa.mp3', volume: volume);
   }
 
   //Make sure Hive is initialized first and only after register the adapter.

@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
                                 });
                               } else {
                                 FlameAudio.bgm.play(
-                                  'tizita.mp3',
+                                  'addis-ababa.mp3',
                                 );
                                 setState(() {
                                   isSoundEnabled = true;

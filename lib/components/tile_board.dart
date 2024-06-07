@@ -46,6 +46,7 @@ class TileBoardWidget extends ConsumerWidget {
     final sizePerTile = (size / 4).floorToDouble();
     final tileSize = sizePerTile - 12.0 - (12.0 / 4);
     final boardSize = sizePerTile * 4;
+
     return SizedBox(
       width: boardSize,
       height: boardSize,
