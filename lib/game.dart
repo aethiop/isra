@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:isra/helpers/ad_mob_service.dart';
 import 'package:isra/home.dart';
 
 import 'components/button.dart';
@@ -21,6 +23,8 @@ class Game extends ConsumerStatefulWidget {
 
 class _GameState extends ConsumerState<Game>
     with TickerProviderStateMixin, WidgetsBindingObserver {
+  BannerAd? _bannerAd;
+  InterstitialAd? _interstitialAd;
   //The contoller used to move the the tiles
   late final AnimationController _moveController = AnimationController(
     duration: const Duration(milliseconds: 100),
@@ -63,6 +67,46 @@ class _GameState extends ConsumerState<Game>
     //Add an Observer for the Lifecycles of the App
     WidgetsBinding.instance.addObserver(this);
     super.initState();
+    _createBannerAd();
+  }
+
+  void _createBannerAd() {
+    _bannerAd = BannerAd(
+        size: AdSize.fullBanner,
+        adUnitId: AdMobService.bannerAdUnitId!,
+        listener: AdMobService.bannerAdListener,
+        request: const AdRequest())
+      ..load();
+  }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdMobService.interstitialAdUnitId!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) => _interstitialAd = ad,
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error');
+            _interstitialAd = null;
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd != null) {
+      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+          _createInterstitialAd();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ad.dispose();
+          _createInterstitialAd();
+        },
+      );
+      _interstitialAd!.show();
+      _interstitialAd = null;
+    }
   }
 
   String _getAmharicWord(int value) {
@@ -117,137 +161,144 @@ class _GameState extends ConsumerState<Game>
           }
         },
         child: Scaffold(
-          backgroundColor: backgroundColor,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Consumer(
-                      builder: (context, ref, _) {
-                        final board = ref.watch(boardManager);
-                        final highestTile = board.tiles
-                            .reduce((a, b) => a.value > b.value ? a : b);
-                        final highestValue = highestTile.value;
-                        final size = max(
-                            290.0,
-                            min(
-                                (MediaQuery.of(context).size.shortestSide *
-                                        0.90)
-                                    .floorToDouble(),
-                                460.0));
+            backgroundColor: backgroundColor,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Consumer(
+                        builder: (context, ref, _) {
+                          final board = ref.watch(boardManager);
+                          final highestTile = board.tiles
+                              .reduce((a, b) => a.value > b.value ? a : b);
+                          final highestValue = highestTile.value;
+                          final size = max(
+                              290.0,
+                              min(
+                                  (MediaQuery.of(context).size.shortestSide *
+                                          0.90)
+                                      .floorToDouble(),
+                                  460.0));
 
-                        //Decide the size of the tile based on the size of the board minus the space between each tile.
-                        final sizePerTile = (size / 4).floorToDouble();
-                        final tileSize = sizePerTile - 12.0 - (12.0 / 4);
-                        return Column(
-                          children: [
-                            Container(
-                              width: tileSize,
-                              height: tileSize,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color(tileColors[highestValue]!
-                                          .withAlpha(200)
-                                          .value),
-                                      Color(tileColors[highestValue]!.value),
-                                    ]),
-                                borderRadius: BorderRadius.circular(18.0),
+                          //Decide the size of the tile based on the size of the board minus the space between each tile.
+                          final sizePerTile = (size / 4).floorToDouble();
+                          final tileSize = sizePerTile - 12.0 - (12.0 / 4);
+                          return Column(
+                            children: [
+                              Container(
+                                width: tileSize,
+                                height: tileSize,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color(tileColors[highestValue]!
+                                            .withAlpha(200)
+                                            .value),
+                                        Color(tileColors[highestValue]!.value),
+                                      ]),
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  '${_latinToGeez(highestValue)}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 48.0,
+                                      color: tileTextColors[highestValue]),
+                                )),
                               ),
-                              child: Center(
-                                  child: Text(
-                                '${_latinToGeez(highestValue)}',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 48.0,
-                                    color: tileTextColors[highestValue]),
-                              )),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                _getAmharicWord(highestValue),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                    color: textColor),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  _getAmharicWord(highestValue),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                      color: textColor),
+                                ),
                               ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const ScoreBoard(),
-                        const SizedBox(
-                          height: 32.0,
-                        ),
-                        Row(
-                          children: [
-                            ButtonWidget(
-                              icon: Icons.home,
-                              onPressed: () {
-                                // Go to about
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Home()),
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            ButtonWidget(
-                              icon: Icons.undo,
-                              onPressed: () {
-                                //Undo the round.
-                                ref.read(boardManager.notifier).undo();
-                              },
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            ButtonWidget(
-                              icon: Icons.refresh,
-                              onPressed: () {
-                                //Restart the game
-                                ref.read(boardManager.notifier).newGame();
-                              },
-                            ),
-                          ],
-                        )
-                      ],
+                            ],
+                          );
+                        },
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const ScoreBoard(),
+                          const SizedBox(
+                            height: 32.0,
+                          ),
+                          Row(
+                            children: [
+                              ButtonWidget(
+                                icon: Icons.home,
+                                onPressed: () {
+                                  // Go to about
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Home()),
+                                  );
+                                },
+                              ),
+                              const SizedBox(
+                                width: 16.0,
+                              ),
+                              ButtonWidget(
+                                icon: Icons.undo,
+                                onPressed: () {
+                                  //Undo the round.
+                                  ref.read(boardManager.notifier).undo();
+                                },
+                              ),
+                              const SizedBox(
+                                width: 16.0,
+                              ),
+                              ButtonWidget(
+                                icon: Icons.refresh,
+                                onPressed: () {
+                                  //Restart the game
+                                  _showInterstitialAd();
+                                  ref.read(boardManager.notifier).newGame();
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 32.0,
+                ),
+                Stack(
+                  children: [
+                    const EmptyBoardWidget(),
+                    TileBoardWidget(
+                      moveAnimation: _moveAnimation,
+                      scaleAnimation: _scaleAnimation,
+                      board: ref.watch(boardManager),
                     )
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 32.0,
-              ),
-              Stack(
-                children: [
-                  const EmptyBoardWidget(),
-                  TileBoardWidget(
-                    moveAnimation: _moveAnimation,
-                    scaleAnimation: _scaleAnimation,
-                    board: ref.watch(boardManager),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
+              ],
+            ),
+            bottomNavigationBar: _bannerAd == null
+                ? null
+                : Container(
+                    margin: const EdgeInsets.only(bottom: 16.0),
+                    height: 50,
+                    child: AdWidget(ad: _bannerAd!),
+                  )),
       ),
     );
   }
