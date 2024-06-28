@@ -52,7 +52,8 @@ class BoardManager extends StateNotifier<Board> with BoardUtils {
 
   // Create New Game state.
   Board _newGame() {
-    return Board.newGame(state.best, [random([])]);
+    return Board.newGame(
+        state.score > state.best ? state.score : state.best, [random([])]);
   }
 
   // Start New Game
