@@ -123,7 +123,7 @@ class TileBoardWidget extends ConsumerWidget {
                     style: const TextStyle(
                         color: textColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 64.0),
+                        fontSize: 48.0),
                   ),
                   const SizedBox(height: 40.0),
                   ButtonWidget(

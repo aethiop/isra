@@ -24,49 +24,51 @@ class Game extends ConsumerStatefulWidget {
 class _GameState extends ConsumerState<Game>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   BannerAd? _bannerAd;
-  InterstitialAd? _interstitialAd;
+  AnimationController? _moveController;
+  CurvedAnimation? _moveAnimation;
+  AnimationController? _scaleController;
+  CurvedAnimation? _scaleAnimation;
+
   //The contoller used to move the the tiles
-  late final AnimationController _moveController = AnimationController(
-    duration: const Duration(milliseconds: 100),
-    vsync: this,
-  )..addStatusListener((status) {
-      //When the movement finishes merge the tiles and start the scale animation which gives the pop effect.
-      if (status == AnimationStatus.completed) {
-        ref.read(boardManager.notifier).merge();
-        _scaleController.forward(from: 0.0);
-      }
-    });
 
-  //The curve animation for the move animation controller.
-  late final CurvedAnimation _moveAnimation = CurvedAnimation(
-    parent: _moveController,
-    curve: Curves.easeIn,
-  );
-
-  //The contoller used to show a popup effect when the tiles get merged
-  late final AnimationController _scaleController = AnimationController(
-    duration: const Duration(milliseconds: 350),
-    vsync: this,
-  )..addStatusListener((status) {
-      //When the scale animation finishes end the round and if there is a queued movement start the move controller again for the next direction.
-      if (status == AnimationStatus.completed) {
-        if (ref.read(boardManager.notifier).endRound()) {
-          _moveController.forward(from: 0.0);
+  void _initializeAnimations() {
+    _moveController = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    )..addStatusListener((status) {
+        //When the movement finishes merge the tiles and start the scale animation which gives the pop effect.
+        if (status == AnimationStatus.completed) {
+          ref.read(boardManager.notifier).merge();
+          _scaleController!.forward(from: 0.0);
         }
-      }
-    });
-
-  //The curve animation for the scale animation controller.
-  late final CurvedAnimation _scaleAnimation = CurvedAnimation(
-    parent: _scaleController,
-    curve: Curves.easeInOutSine,
-  );
+      });
+    _moveAnimation = CurvedAnimation(
+      parent: _moveController!,
+      curve: Curves.easeIn,
+    );
+    _scaleController = AnimationController(
+      duration: const Duration(milliseconds: 350),
+      vsync: this,
+    )..addStatusListener((status) {
+        //When the scale animation finishes end the round and if there is a queued movement start the move controller again for the next direction.
+        if (status == AnimationStatus.completed) {
+          if (ref.read(boardManager.notifier).endRound()) {
+            _moveController!.forward(from: 0.0);
+          }
+        }
+      });
+    _scaleAnimation = CurvedAnimation(
+      parent: _scaleController!,
+      curve: Curves.easeInOutSine,
+    );
+  }
 
   @override
   void initState() {
     //Add an Observer for the Lifecycles of the App
     WidgetsBinding.instance.addObserver(this);
     super.initState();
+    _initializeAnimations();
     _createBannerAd();
   }
 
@@ -77,36 +79,6 @@ class _GameState extends ConsumerState<Game>
         listener: AdMobService.bannerAdListener,
         request: const AdRequest())
       ..load();
-  }
-
-  void _createInterstitialAd() {
-    InterstitialAd.load(
-        adUnitId: AdMobService.interstitialAdUnitId!,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (ad) => _interstitialAd = ad,
-          onAdFailedToLoad: (LoadAdError error) {
-            print('InterstitialAd failed to load: $error');
-            _interstitialAd = null;
-          },
-        ));
-  }
-
-  void _showInterstitialAd() {
-    if (_interstitialAd != null) {
-      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdDismissedFullScreenContent: (ad) {
-          ad.dispose();
-          _createInterstitialAd();
-        },
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          ad.dispose();
-          _createInterstitialAd();
-        },
-      );
-      _interstitialAd!.show();
-      _interstitialAd = null;
-    }
   }
 
   String _getAmharicWord(int value) {
@@ -151,13 +123,13 @@ class _GameState extends ConsumerState<Game>
       onKey: (RawKeyEvent event) {
         //Move the tile with the arrows on the keyboard on Desktop
         if (ref.read(boardManager.notifier).onKey(event)) {
-          _moveController.forward(from: 0.0);
+          _moveController!.forward(from: 0.0);
         }
       },
       child: SwipeDetector(
         onSwipe: (direction, offset) {
           if (ref.read(boardManager.notifier).whenMove(direction)) {
-            _moveController.forward(from: 0.0);
+            _moveController!.forward(from: 0.0);
           }
         },
         child: Scaffold(
@@ -266,7 +238,6 @@ class _GameState extends ConsumerState<Game>
                                 icon: Icons.refresh,
                                 onPressed: () {
                                   //Restart the game
-                                  _showInterstitialAd();
                                   ref.read(boardManager.notifier).newGame();
                                 },
                               ),
@@ -284,8 +255,8 @@ class _GameState extends ConsumerState<Game>
                   children: [
                     const EmptyBoardWidget(),
                     TileBoardWidget(
-                      moveAnimation: _moveAnimation,
-                      scaleAnimation: _scaleAnimation,
+                      moveAnimation: _moveAnimation!,
+                      scaleAnimation: _scaleAnimation!,
                       board: ref.watch(boardManager),
                     )
                   ],
@@ -296,7 +267,7 @@ class _GameState extends ConsumerState<Game>
                 ? null
                 : Container(
                     margin: const EdgeInsets.only(bottom: 16.0),
-                    height: 50,
+                    height: 52,
                     child: AdWidget(ad: _bannerAd!),
                   )),
       ),
@@ -318,10 +289,10 @@ class _GameState extends ConsumerState<Game>
     WidgetsBinding.instance.removeObserver(this);
 
     //Dispose the animations.
-    _moveAnimation.dispose();
-    _scaleAnimation.dispose();
-    _moveController.dispose();
-    _scaleController.dispose();
+    _moveAnimation!.dispose();
+    _scaleAnimation!.dispose();
+    _moveController!.dispose();
+    _scaleController!.dispose();
     super.dispose();
   }
 }

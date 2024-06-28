@@ -12,7 +12,7 @@ import '../models/board.dart';
 
 import 'next_direction.dart';
 import 'round.dart';
-import 'package:isra/helpers/BoardUtils.dart';
+import 'package:isra/helpers/board_utils.dart';
 
 class TutorialManager extends StateNotifier<Board> with BoardUtils {
   // We will use this list to retrieve the right index when user swipes up/down
