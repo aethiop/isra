@@ -14,24 +14,6 @@ import 'package:isra/helpers/board_utils.dart';
 class BoardManager extends StateNotifier<Board> with BoardUtils {
   // We will use this list to retrieve the right index when user swipes up/down
   // which will allow us to reuse most of the logic.
-  // List<Tile> winningPosition = [
-  //   Tile("0", 1024, 0),
-  //   Tile("1", 1024, 1),
-  //   Tile("2", 2, 2),
-  //   Tile("3", 2, 3),
-  //   Tile("4", 4, 4),
-  //   Tile("5", 4, 5),
-  //   Tile("6", 8, 6),
-  //   Tile("7", 8, 7),
-  //   Tile("8", 16, 8),
-  //   Tile("9", 16, 9),
-  //   Tile("10", 32, 10),
-  //   Tile("11", 32, 11),
-  //   Tile("12", 64, 12),
-  //   Tile("13", 64, 13),
-  //   Tile("14", 128, 14),
-  //   Tile("15", 128, 15),
-  // ];
   final StateNotifierProviderRef ref;
   final Future<Box<Board>> _box;
 

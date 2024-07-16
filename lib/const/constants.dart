@@ -1,2 +1,2 @@
-const String firstTime = 'firstTimeUser';
+const String firstTime = 'firstTimeUser2';
 const String soundEnabled = 'soundEnabled';
