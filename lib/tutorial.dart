@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
@@ -68,7 +70,13 @@ class _TutorialState extends ConsumerState<Tutorial>
     final tutorialBoard = ref.watch(tutorialManager);
     final isBoardLocked = tutorialManagerNotifier.isBoardLocked;
     final tutorialStep = tutorialManagerNotifier.tutorialStep;
+    final size = max(
+        290.0,
+        min((MediaQuery.of(context).size.shortestSide * 0.90).floorToDouble(),
+            460.0));
 
+    final sizePerTile = (size / 4).floorToDouble();
+    final tileSize = sizePerTile - 12.0 - (12.0 / 4);
     return RawKeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
@@ -156,11 +164,13 @@ class _TutorialState extends ConsumerState<Tutorial>
                     child: Center(
                       child: Stack(
                         children: [
-                          const EmptyBoardWidget(), // Display walls when reaching step 2
                           TileBoardWidget(
                             moveAnimation: _moveAnimation,
                             scaleAnimation: _scaleAnimation,
                             board: tutorialBoard,
+                            boardSize: 4,
+                            tileSize: tileSize,
+                            boardKey: GlobalKey(),
                           ),
                         ],
                       ),

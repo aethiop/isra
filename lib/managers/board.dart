@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:isra/const/constants.dart';
 
 import '../models/tile.dart';
 import '../models/board.dart';
@@ -12,30 +13,23 @@ import 'round.dart';
 import 'package:isra/helpers/board_utils.dart';
 
 class BoardManager extends StateNotifier<Board> with BoardUtils {
-  // We will use this list to retrieve the right index when user swipes up/down
-  // which will allow us to reuse most of the logic.
   final StateNotifierProviderRef ref;
   final Future<Box<Board>> _box;
+  final int boardSize;
 
-  BoardManager(this.ref, this._box) : super(Board.newGame(0, [])) {
-    //Load the last saved state or start a new game.
+  BoardManager(this.ref, this._box, this.boardSize)
+      : super(Board.newGame(0, [], boardSize)) {
     load();
   }
+
   void load() async {
-    //Access the box and get the first item at index 0
-    //which will always be just one item of the Board model
-    //and here we don't need to call fromJson function of the board model
-    //in order to construct the Board model
-    //instead the adapter we added earlier will do that automatically.
-    //If there is no save locally it will start a new game.
     final box = await _box;
     state = box.get(0) ?? _newGame();
   }
 
-  // Create New Game state.
   Board _newGame() {
-    return Board.newGame(
-        state.score > state.best ? state.score : state.best, [random([])]);
+    return Board.newGame(state.score > state.best ? state.score : state.best,
+        [random([], boardSize)], boardSize);
   }
 
   // Start New Game
@@ -43,12 +37,15 @@ class BoardManager extends StateNotifier<Board> with BoardUtils {
     state = _newGame();
   }
 
+  void continuePlaying() {
+    state = state.copyWith(won: false);
+  }
+
   bool whenMove(SwipeDirection direction) {
     if (state.over) {
       return false;
     }
-    List<Tile> tiles = move(direction, state.tiles);
-    // Assign immutable copy of the new board state and trigger rebuild.
+    List<Tile> tiles = move(direction, state.tiles, boardSize);
     state = state.copyWith(tiles: tiles, undo: state);
     return true;
   }
@@ -91,74 +88,58 @@ class BoardManager extends StateNotifier<Board> with BoardUtils {
 
     //If tiles got moved then generate a new tile at random position of the available positions on the board.
     if (tilesMoved) {
-      tiles.add(random(indexes));
+      tiles.add(random(indexes, boardSize));
     }
     state = state.copyWith(score: score, tiles: tiles);
   }
 
   //Finish round, win or loose the game.
   void _endRound() async {
-    var gameOver = true, gameWon = false;
+    var gameOver = false;
+    var gameWon = false;
     List<Tile> tiles = [];
 
-    //If there is no more empty place on the board
-    if (state.tiles.length == 16) {
-      state.tiles.sort(((a, b) => a.index.compareTo(b.index)));
+    // Sort tiles by index
+    state.tiles.sort((a, b) => a.index.compareTo(b.index));
 
-      for (int i = 0, l = state.tiles.length; i < l; i++) {
+    // Check for empty spaces and 2048 tile
+    bool hasEmptySpace = state.tiles.length < boardSize * boardSize;
+
+    for (var tile in state.tiles) {
+      if (tile.value >= targetScores[boardSize]!) {
+        gameWon = true;
+      }
+      tiles.add(tile.copyWith(merged: false));
+    }
+
+    // If there are empty spaces, the game is not over
+    if (hasEmptySpace) {
+      gameOver = false;
+    } else {
+      // Check for possible moves
+      gameOver = true;
+      for (int i = 0; i < state.tiles.length; i++) {
         var tile = state.tiles[i];
+        int row = i ~/ boardSize;
+        int col = i % boardSize;
 
-        //If there is a tile with 2048 then the game is won.
-        if (tile.value >= 2048) {
-          gameWon = true;
-        }
-
-        var x = (i - (((i + 1) / 4).ceil() * 4 - 4));
-
-        if (x > 0 && i - 1 >= 0) {
-          //If tile can be merged with left tile then game is not lost.
-          var left = state.tiles[i - 1];
-          if (tile.value == left.value) {
-            gameOver = false;
-          }
-        }
-
-        if (x < 3 && i + 1 < l) {
-          //If tile can be merged with right tile then game is not lost.
+        // Check right
+        if (col < boardSize - 1) {
           var right = state.tiles[i + 1];
           if (tile.value == right.value) {
             gameOver = false;
+            break;
           }
         }
 
-        if (i - 4 >= 0) {
-          //If tile can be merged with above tile then game is not lost.
-          var top = state.tiles[i - 4];
-          if (tile.value == top.value) {
+        // Check below
+        if (row < boardSize - 1) {
+          var below = state.tiles[i + boardSize];
+          if (tile.value == below.value) {
             gameOver = false;
+            break;
           }
         }
-
-        if (i + 4 < l) {
-          //If tile can be merged with the bellow tile then game is not lost.
-          var bottom = state.tiles[i + 4];
-          if (tile.value == bottom.value) {
-            gameOver = false;
-          }
-        }
-        //Set the tile merged: false
-        tiles.add(tile.copyWith(merged: false));
-      }
-    } else {
-      //There is still a place on the board to add a tile so the game is not lost.
-      gameOver = false;
-      for (var tile in state.tiles) {
-        //If there is a tile with 2048 then the game is won.
-        if (tile.value == 2048) {
-          gameWon = true;
-        }
-        //Set the tile merged: false
-        tiles.add(tile.copyWith(merged: false));
       }
     }
 
@@ -221,7 +202,8 @@ class BoardManager extends StateNotifier<Board> with BoardUtils {
   }
 }
 
-final boardManager = StateNotifierProvider<BoardManager, Board>((ref) {
+final boardManager =
+    StateNotifierProviderFamily<BoardManager, Board, int>((ref, boardSize) {
   final box = Hive.openBox<Board>('board');
-  return BoardManager(ref, box);
+  return BoardManager(ref, box, boardSize);
 });

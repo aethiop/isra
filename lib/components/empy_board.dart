@@ -4,32 +4,31 @@ import 'package:flutter/material.dart';
 import '../const/colors.dart';
 
 class EmptyBoardWidget extends StatelessWidget {
-  const EmptyBoardWidget({super.key});
+  final int boardSize;
+  const EmptyBoardWidget({Key? key, required this.boardSize}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //Decides the maximum size the Board can be based on the shortest size of the screen.
     final size = max(
         290.0,
         min((MediaQuery.of(context).size.shortestSide * 0.90).floorToDouble(),
             460.0));
 
-    //Decide the size of the tile based on the size of the board minus the space between each tile.
-    final sizePerTile = (size / 4).floorToDouble();
-    final tileSize = sizePerTile - 12.0 - (12.0 / 4);
-    final boardSize = sizePerTile * 4;
+    final sizePerTile = (size / this.boardSize).floorToDouble();
+    final tileSize = sizePerTile - 12.0 - (12.0 / this.boardSize);
+    final boardSize = sizePerTile * this.boardSize;
+
     return Container(
       width: boardSize,
       height: boardSize,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
       child: Stack(
-        children: List.generate(16, (i) {
-          //Render the empty board in 4x4 GridView
-          var x = ((i + 1) / 4).ceil();
+        children: List.generate(this.boardSize * this.boardSize, (i) {
+          var x = ((i + 1) / this.boardSize).ceil();
           var y = x - 1;
 
           var top = y * (tileSize) + (x * 12.0);
-          var z = (i - (4 * y));
+          var z = (i - (this.boardSize * y));
           var left = z * (tileSize) + ((z + 1) * 12.0);
 
           return Positioned(
@@ -46,7 +45,6 @@ class EmptyBoardWidget extends StatelessWidget {
                       Color(emptyTileColor.withAlpha(200).value),
                       Color(emptyTileColor.withAlpha(180).value),
                     ]),
-                color: emptyTileColor,
                 borderRadius: BorderRadius.circular(18.0),
               ),
             ),

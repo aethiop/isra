@@ -10,6 +10,18 @@ import 'package:isra/tutorial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'models/board_adapter.dart';
 
+void toggleSound() async {
+  var prefs = await SharedPreferences.getInstance();
+  bool isSoundEnabled = !(prefs.getBool(soundEnabled) ?? true);
+  prefs.setBool(soundEnabled, isSoundEnabled);
+
+  if (isSoundEnabled) {
+    FlameAudio.bgm.play('addis-ababa.mp3', volume: 1);
+  } else {
+    FlameAudio.bgm.stop();
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
@@ -17,31 +29,55 @@ void main() async {
     [DeviceOrientation.portraitUp],
   );
 
-  void startBgmMusic({double volume = 1}) {
-    FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('addis-ababa.mp3', volume: volume);
-  }
-
-  //Make sure Hive is initialized first and only after register the adapter.
   await Hive.initFlutter();
   Hive.registerAdapter(BoardAdapter());
   var prefs = await SharedPreferences.getInstance();
   bool isFirstTime = prefs.getBool(firstTime) ?? true;
   bool isSoundEnabled = prefs.getBool(soundEnabled) ?? true;
-  prefs.setBool(soundEnabled, isSoundEnabled);
 
-  if (isSoundEnabled) {
-    startBgmMusic();
-  }
-  // await MobileAds.instance.initialize();
   runApp(IsraApp(isFirstTime: isFirstTime, isSoundEnabled: isSoundEnabled));
 }
 
-class IsraApp extends StatelessWidget {
+class IsraApp extends StatefulWidget {
   final bool isFirstTime;
   final bool isSoundEnabled;
-  const IsraApp({key, required this.isFirstTime, required this.isSoundEnabled})
+  const IsraApp(
+      {Key? key, required this.isFirstTime, required this.isSoundEnabled})
       : super(key: key);
+
+  @override
+  _IsraAppState createState() => _IsraAppState();
+}
+
+class _IsraAppState extends State<IsraApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    if (widget.isSoundEnabled) {
+      FlameAudio.bgm.play('addis-ababa.mp3', volume: 1);
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    FlameAudio.bgm.stop();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.paused) {
+      FlameAudio.bgm.pause();
+    } else if (state == AppLifecycleState.resumed) {
+      var prefs = await SharedPreferences.getInstance();
+      bool isSoundEnabled = prefs.getBool(soundEnabled) ?? true;
+      if (isSoundEnabled) {
+        FlameAudio.bgm.resume();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +87,9 @@ class IsraApp extends StatelessWidget {
         theme: ThemeData(
             fontFamily: 'NotoSansEthiopic', primarySwatch: Colors.grey),
         title: 'ዕሥራ',
-        home: isFirstTime
-            ? Tutorial(firstTime: isFirstTime)
-            : Home(), // Replace MainScreen() with your main screen widget
+        home: widget.isFirstTime
+            ? Tutorial(firstTime: widget.isFirstTime)
+            : Home(),
       ),
     );
   }

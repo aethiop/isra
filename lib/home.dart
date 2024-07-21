@@ -5,6 +5,7 @@ import 'package:isra/const/constants.dart';
 import 'package:isra/tutorial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'components/board_size_selector.dart';
 import 'components/button.dart';
 import 'const/colors.dart';
 import 'game.dart';
@@ -17,21 +18,43 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool isSoundEnabled = false;
-
-  getSoundStatus() async {
-    var prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(soundEnabled) ?? true;
-  }
+  bool isSoundEnabled = false; // Default to true
+  int selectedBoardSize = 4; // Default to 4x4
 
   @override
   void initState() {
     super.initState();
+    _loadSettings();
   }
 
-  void setSoundStatus(bool status) async {
+  Future<void> _loadSettings() async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setBool(soundEnabled, status);
+    setState(() {
+      isSoundEnabled = prefs.getBool(soundEnabled) ?? true;
+      selectedBoardSize = prefs.getInt(boardSizeKey) ?? 4;
+    });
+  }
+
+  Future<void> toggleSound() async {
+    setState(() {
+      isSoundEnabled = !isSoundEnabled;
+    });
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(soundEnabled, isSoundEnabled);
+
+    if (isSoundEnabled) {
+      FlameAudio.bgm.play('addis-ababa.mp3', volume: 1);
+    } else {
+      FlameAudio.bgm.stop();
+    }
+  }
+
+  Future<void> setBoardSize(int size) async {
+    setState(() {
+      selectedBoardSize = size;
+    });
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(boardSizeKey, size);
   }
 
   @override
@@ -49,24 +72,54 @@ class _HomeState extends State<Home> {
             children: [
               Column(
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(21.0)),
-                    child: SvgPicture.asset(
-                      'assets/icon.svg',
-                      height: 100,
-                      width: 100,
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(tileColors[targetScores[selectedBoardSize]]!
+                                .withAlpha(200)
+                                .value),
+                            Color(tileColors[targetScores[selectedBoardSize]]!
+                                .value),
+                          ]),
+                      borderRadius: BorderRadius.circular(18.0),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(48.0),
-                    child: Text(
-                      'ዕሥራ',
+                    child: Center(
+                        child: Text(
+                      '${geezSymbols[targetScores[selectedBoardSize]]}',
                       style: TextStyle(
-                          fontSize: 42,
                           fontWeight: FontWeight.w900,
-                          color: textColor),
-                    ),
+                          fontSize: 48.0,
+                          color:
+                              tileTextColors[targetScores[selectedBoardSize]]),
+                    )),
                   ),
+                  const SizedBox(height: 20),
+                  Text(
+                    geezWords[targetScores[selectedBoardSize]]!,
+                    style: TextStyle(
+                        fontSize: 42,
+                        fontWeight: FontWeight.w900,
+                        color: textColor),
+                  ),
+                  const SizedBox(height: 40),
+                  SizedBox(
+                      height: 180, // Adjust this height as needed
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: boardSizes
+                            .map((size) => BoardSizeSelector(
+                                  size: size,
+                                  isSelected: size == selectedBoardSize,
+                                  onTap: () => setBoardSize(size),
+                                ))
+                            .toList(),
+                      )),
+                  const SizedBox(height: 40),
                   // select the game mode
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,10 +132,10 @@ class _HomeState extends State<Home> {
                           icon: Icons.play_arrow,
                           onPressed: () {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Game()),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Game(boardSize: selectedBoardSize)));
                           },
                         ),
                       ),
@@ -107,21 +160,7 @@ class _HomeState extends State<Home> {
                             text: 'About',
                             icon: soundIcon,
                             onPressed: () {
-                              if (FlameAudio.bgm.isPlaying) {
-                                FlameAudio.bgm.pause();
-                                setState(() {
-                                  isSoundEnabled = false;
-                                  setSoundStatus(false);
-                                });
-                              } else {
-                                FlameAudio.bgm.play(
-                                  'addis-ababa.mp3',
-                                );
-                                setState(() {
-                                  isSoundEnabled = true;
-                                  setSoundStatus(true);
-                                });
-                              }
+                              toggleSound();
                             }),
                       ),
                     ],

@@ -2,25 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../const/colors.dart';
+import '../const/constants.dart';
 import '../managers/board.dart';
 
 class ScoreBoard extends ConsumerWidget {
-  const ScoreBoard({super.key});
+  final int boardSize;
+  final double gapSize;
+  const ScoreBoard({super.key, required this.boardSize, this.gapSize = 8.0});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final score = ref.watch(boardManager.select((board) => board.score));
-    final best = ref.watch(boardManager.select((board) => board.best));
+    final score =
+        ref.watch(boardManager(boardSize).select((board) => board.score));
+    final best =
+        ref.watch(boardManager(boardSize).select((board) => board.best));
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Score(label: 'ነጥብ', score: '$score'),
-        const SizedBox(
-          width: 8.0,
+        Score(label: 'ውጤት', score: '$score'),
+        SizedBox(
+          width: gapSize,
         ),
         Score(
-            label: 'ምርጥ',
+            label: 'ከፍተኛ',
             score: '$best',
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)),
@@ -93,28 +98,6 @@ class Score extends StatelessWidget {
               '${group?[1]}'
             ])
         .toList();
-
-    final geezMap = {
-      '0': '0',
-      '1': '፩',
-      '2': '፪',
-      '3': '፫',
-      '4': '፬',
-      '5': '፭',
-      '6': '፮',
-      '7': '፯',
-      '8': '፰',
-      '9': '፱',
-      '10': '፲',
-      '20': '፳',
-      '30': '፴',
-      '40': '፵',
-      '50': '፶',
-      '60': '፷',
-      '70': '፸',
-      '80': '፹',
-      '90': '፺'
-    };
 
     final ethiopic = asciiNumberExpanded
         .map((group) => [geezMap[group[0]], geezMap[group[1]]])

@@ -21,7 +21,7 @@ class TutorialManager extends StateNotifier<Board> with BoardUtils {
   final StateNotifierProviderRef ref;
   final Future<Box<Board>> _box;
 
-  TutorialManager(this.ref, this._box) : super(Board.newGame(0, [])) {
+  TutorialManager(this.ref, this._box) : super(Board.newGame(0, [], 4)) {
     //Load the last saved state or start a new game.
     load();
   }
@@ -33,7 +33,7 @@ class TutorialManager extends StateNotifier<Board> with BoardUtils {
     //instead the adapter we added earlier will do that automatically.
     //If there is no save locally it will start a new game.
     final box = await _box;
-    state = box.get(0) ?? Board.newGame(0, []);
+    state = box.get(0) ?? Board.newGame(0, [], 4);
     startTutorial();
   }
 
@@ -57,7 +57,7 @@ class TutorialManager extends StateNotifier<Board> with BoardUtils {
     switch (_tutorialStep) {
       case 1:
         // Initialize the tutorial board with empty tiles
-        state = Board.newGame(0, [Tile(Uuid().v4(), 2, 5)]);
+        state = Board.newGame(0, [Tile(Uuid().v4(), 2, 5)], 4);
         _isBoardLocked = false;
         _isNewTileEnabled = false;
         _isMerged = false;
@@ -98,7 +98,7 @@ class TutorialManager extends StateNotifier<Board> with BoardUtils {
     if (state.over) {
       return false;
     }
-    List<Tile> tiles = move(direction, state.tiles);
+    List<Tile> tiles = move(direction, state.tiles, 4);
     // Assign immutable copy of the new board state and trigger rebuild.
     state = state.copyWith(tiles: tiles, undo: state);
     return true;
@@ -229,7 +229,7 @@ class TutorialManager extends StateNotifier<Board> with BoardUtils {
 
     //If tiles got moved then generate a new tile at random position of the available positions on the board.
     if (tilesMoved && isNewTileEnabled) {
-      tiles.add(random(indexes));
+      tiles.add(random(indexes, 4));
     }
     state = state.copyWith(score: score, tiles: tiles);
   }

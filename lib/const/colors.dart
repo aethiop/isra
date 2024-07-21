@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 const backgroundColor = Color(0xFF1F1F1F);
-const textColor = Color.fromARGB(255, 212, 212, 212);
+const textColor = Color.fromARGB(255, 255, 255, 255);
 const textColorBlack = Color(0xFF1F1F1F);
 const boardColor = Color(0xFF2E2E2E);
 const surfaceColor = Color.fromARGB(255, 60, 60, 60);
@@ -22,10 +22,11 @@ const color64 = Color(0xFFF65E3B);
 const color128 = Color(0xFFEDCF72);
 const color256 = Color(0xFFEDCC61);
 const color512 = Color(0xFFEDC850);
-const color1024 = Color(0xFFEDC53F);
-const color2048 = Color(0xFFEDC22E);
-const color4096 = Color(0xFF3C3A32);
-const color8192 = Color(0xFF3C3A32);
+const color1024 =
+    Color.fromARGB(255, 209, 161, 58); // New golden color, more defined
+const color2048 =
+    Color.fromARGB(255, 222, 210, 44); // New golden color, more defined
+const color4096 = Color(0xFFEABA20);
 
 const tileColors = {
   2: color2,
@@ -40,7 +41,6 @@ const tileColors = {
   1024: color1024,
   2048: color2048,
   4096: color4096,
-  8192: color8192,
 };
 
 const tileTextColors = {
@@ -55,6 +55,5 @@ const tileTextColors = {
   512: Color(0xFFF9F6F2),
   1024: Color(0xFFF9F6F2),
   2048: Color(0xFFF9F6F2),
-  4096: Color(0xFFF9F6F2),
-  8192: Color(0xFFF9F6F2),
+  4096: Color(0xFF3C3A32), // Dark text for bright backgrounds
 };

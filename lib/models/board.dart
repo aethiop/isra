@@ -23,7 +23,7 @@ class Board {
       {this.over = false, this.won = false, this.undo});
 
   //Create a model for a new game.
-  Board.newGame(this.best, this.tiles)
+  Board.newGame(this.best, this.tiles, int boardSize)
       : score = 0,
         over = false,
         won = false,
